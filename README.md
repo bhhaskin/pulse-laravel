@@ -12,13 +12,13 @@ The package is auto-discovered by Laravel so no manual service provider registra
 
 ## Configuration
 
-Publish the configuration file to customize the route prefix, middleware stack, or stub data returned by the endpoint:
+Publish the configuration file to customize the route prefix or middleware stack applied to the beacon endpoint:
 
 ```bash
-php artisan vendor:publish --tag=pulse-laravel-config
+php artisan vendor:publish --tag=pulse-config
 ```
 
-Key options inside `config/pulse-laravel.php`:
+Key options inside `config/pulse.php`:
 
 - `prefix`: URL segment that prefixes all Pulse routes. Defaults to `pulse`.
 - `middleware`: Middleware applied to the Pulse route group. Defaults to the `api` stack.

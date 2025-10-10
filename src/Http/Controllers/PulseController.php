@@ -1,6 +1,6 @@
 <?php
 
-namespace Bhhaskin\PulseLaravel\Http\Controllers;
+namespace Bhhaskin\Pulse\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

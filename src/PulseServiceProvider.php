@@ -1,6 +1,6 @@
 <?php
 
-namespace Bhhaskin\PulseLaravel;
+namespace Bhhaskin\Pulse;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -12,7 +12,7 @@ class PulseServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/pulse-laravel.php', 'pulse-laravel');
+        $this->mergeConfigFrom(__DIR__ . '/../config/pulse.php', 'pulse');
     }
 
     /**
@@ -23,8 +23,8 @@ class PulseServiceProvider extends ServiceProvider
         $this->registerRoutes();
 
         $this->publishes([
-            __DIR__ . '/../config/pulse-laravel.php' => $this->appConfigPath('pulse-laravel.php'),
-        ], 'pulse-laravel-config');
+            __DIR__ . '/../config/pulse.php' => $this->appConfigPath('pulse.php'),
+        ], 'pulse-config');
     }
 
     /**
@@ -37,8 +37,8 @@ class PulseServiceProvider extends ServiceProvider
         }
 
         Route::group([
-            'prefix' => config('pulse-laravel.prefix', 'pulse'),
-            'middleware' => config('pulse-laravel.middleware', ['api']),
+            'prefix' => config('pulse.prefix', 'pulse'),
+            'middleware' => config('pulse.middleware', ['api']),
         ], function (): void {
             $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         });

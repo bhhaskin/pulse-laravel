@@ -1,9 +1,9 @@
 <?php
 
-namespace Bhhaskin\PulseLaravel\Tests\Feature;
+namespace Bhhaskin\Pulse\Tests\Feature;
 
-use Bhhaskin\PulseLaravel\PulseServiceProvider;
-use Bhhaskin\PulseLaravel\Tests\TestCase;
+use Bhhaskin\Pulse\PulseServiceProvider;
+use Bhhaskin\Pulse\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class PulseEndpointTest extends TestCase
@@ -19,7 +19,7 @@ class PulseEndpointTest extends TestCase
     #[Test]
     public function it_allows_custom_prefix_configuration(): void
     {
-        config(['pulse-laravel.prefix' => 'custom-pulse']);
+        config(['pulse.prefix' => 'custom-pulse']);
 
         (new PulseServiceProvider($this->app))->boot();
 

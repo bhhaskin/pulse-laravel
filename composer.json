@@ -10,18 +10,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Bhhaskin\\PulseLaravel\\": "src/"
+            "Bhhaskin\\Pulse\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Bhhaskin\\PulseLaravel\\Tests\\": "tests/"
+            "Bhhaskin\\Pulse\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Bhhaskin\\PulseLaravel\\PulseServiceProvider"
+                "Bhhaskin\\Pulse\\PulseServiceProvider"
             ]
         }
     },

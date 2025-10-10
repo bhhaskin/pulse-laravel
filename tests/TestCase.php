@@ -1,8 +1,8 @@
 <?php
 
-namespace Bhhaskin\PulseLaravel\Tests;
+namespace Bhhaskin\Pulse\Tests;
 
-use Bhhaskin\PulseLaravel\PulseServiceProvider;
+use Bhhaskin\Pulse\PulseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra

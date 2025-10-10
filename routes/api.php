@@ -1,7 +1,7 @@
 <?php
 
-use Bhhaskin\PulseLaravel\Http\Controllers\PulseController;
+use Bhhaskin\Pulse\Http\Controllers\PulseController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/', [PulseController::class, 'metrics'])
-    ->name('pulse-laravel.index');
+    ->name('pulse.index');
