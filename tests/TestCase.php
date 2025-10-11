@@ -29,5 +29,21 @@ abstract class TestCase extends Orchestra
     {
         $app['config']->set('app.key', 'base64:4xQGvS25l5Kc1X9nC1uhGQ==');
         $app['config']->set('app.url', 'http://localhost');
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+        $app['config']->set('queue.default', 'sync');
+        $app['config']->set('queue.connections.sync', [
+            'driver' => 'sync',
+        ]);
+    }
+
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadLaravelMigrations();
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

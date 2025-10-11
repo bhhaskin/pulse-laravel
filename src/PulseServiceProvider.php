@@ -21,10 +21,24 @@ class PulseServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerRoutes();
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadFactoriesFrom(__DIR__ . '/../database/factories');
 
         $this->publishes([
             __DIR__ . '/../config/pulse.php' => $this->appConfigPath('pulse.php'),
         ], 'pulse-config');
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations/' => $this->appDatabasePath('migrations'),
+        ], 'pulse-migrations');
+
+        $this->publishes([
+            __DIR__ . '/../database/factories/' => $this->appDatabasePath('factories'),
+        ], 'pulse-factories');
+
+        $this->publishes([
+            __DIR__ . '/../database/seeders/' => $this->appDatabasePath('seeders'),
+        ], 'pulse-seeders');
     }
 
     /**
@@ -54,5 +68,17 @@ class PulseServiceProvider extends ServiceProvider
         }
 
         return $this->app->basePath('config/' . $file);
+    }
+
+    /**
+     * Resolve the application database migrations path with a Lumen/testing fallback.
+     */
+    protected function appDatabasePath(string $append = ''): string
+    {
+        if (function_exists('database_path')) {
+            return rtrim(database_path($append ?: '.'), '/');
+        }
+
+        return rtrim($this->app->databasePath($append ?: '.'), '/');
     }
 }
