@@ -28,6 +28,10 @@ return new class extends Migration {
             $table->string('browser_name')->nullable();
             $table->string('browser_version')->nullable();
             $table->timestamps();
+
+            $table->index('client_id');
+            $table->index('session_id');
+            $table->index(['client_id', 'session_id']);
         });
     }
 

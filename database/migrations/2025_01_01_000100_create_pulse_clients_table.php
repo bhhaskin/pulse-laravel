@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('pulse_clients', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->string('uuid')->unique();
-            $table->timestamp('first_seen_at')->nullable();
-            $table->timestamp('last_seen_at')->nullable();
+            $table->timestamp('first_seen_at')->nullable()->index();
+            $table->timestamp('last_seen_at')->nullable()->index();
             $table->timestamps();
         });
     }

@@ -11,9 +11,11 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('uuid')->unique();
             $table->foreignId('client_id')->nullable()->constrained('pulse_clients')->cascadeOnDelete();
-            $table->timestamp('first_seen_at')->nullable();
-            $table->timestamp('last_seen_at')->nullable();
+            $table->timestamp('first_seen_at')->nullable()->index();
+            $table->timestamp('last_seen_at')->nullable()->index();
             $table->timestamps();
+
+            $table->index('client_id');
         });
     }
 

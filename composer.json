@@ -3,7 +3,7 @@
     "description": "Laravel integration package that exposes Pulse JS API endpoints.",
     "type": "library",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "authors": [
         {
             "name": "Bryan Haskin",
