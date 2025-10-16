@@ -19,6 +19,12 @@ return new class extends Migration {
             $table->json('payload')->nullable();
             $table->timestamp('sent_at')->nullable()->index();
             $table->timestamps();
+
+            $table->index('batch_id');
+            $table->index('client_id');
+            $table->index('session_id');
+            $table->index('device_id');
+            $table->index(['event_type', 'event_name']);
         });
     }
 

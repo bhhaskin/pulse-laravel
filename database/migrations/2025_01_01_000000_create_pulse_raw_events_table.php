@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('pulse_raw_batches', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->json('events');
-            $table->timestamp('batch_sent_at')->nullable();
-            $table->timestamp('processed_at')->nullable();
+            $table->timestamp('batch_sent_at')->nullable()->index();
+            $table->timestamp('processed_at')->nullable()->index();
             $table->timestamps();
         });
     }
