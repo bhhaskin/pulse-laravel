@@ -52,8 +52,10 @@ class ProcessPulseBatch implements ShouldQueue
                 continue;
             }
 
-            $db->connection()->transaction(function () use ($batch, $validated): void {
-                $payload = Arr::get($validated, 'payload', []);
+            $db->connection()->transaction(function () use ($batch, $validated, $event): void {
+                $rawPayload = Arr::get($event, 'payload', []);
+                $payload = is_array($rawPayload) ? $rawPayload : [];
+                $sanitizedPayload = Arr::except($payload, ['user_agent', 'device']);
                 $timestamp = $this->parseDate(Arr::get($validated, 'sentAt')) ?? CarbonImmutable::now();
                 $userAgent = Arr::get($payload, 'user_agent')
                     ?? Arr::get($payload, 'device.userAgent');
@@ -70,7 +72,7 @@ class ProcessPulseBatch implements ShouldQueue
                     'event_type' => Arr::get($validated, 'eventType'),
                     'event_name' => Arr::get($validated, 'eventName'),
                     'url' => Arr::get($validated, 'url'),
-                    'payload' => $payload,
+                    'payload' => $sanitizedPayload,
                     'sent_at' => $timestamp,
                 ]);
             });
@@ -180,7 +182,7 @@ class ProcessPulseBatch implements ShouldQueue
         $devicePayload = Arr::get($payload, 'device');
 
         if (! is_array($devicePayload) || empty($devicePayload)) {
-            return null;
+            return $this->findKnownDevice($client, $session);
         }
 
         $hash = sha1(json_encode($devicePayload));
@@ -220,6 +222,45 @@ class ProcessPulseBatch implements ShouldQueue
         ]);
 
         $device->save();
+
+        return $device;
+    }
+
+    protected function findKnownDevice(?PulseClient $client, ?PulseSession $session): ?PulseDevice
+    {
+        $device = null;
+
+        if ($session?->id) {
+            $device = PulseDevice::where('session_id', $session->id)
+                ->latest('updated_at')
+                ->first();
+        }
+
+        if (! $device && $client?->id) {
+            $device = PulseDevice::where('client_id', $client->id)
+                ->latest('updated_at')
+                ->first();
+        }
+
+        if (! $device) {
+            return null;
+        }
+
+        $needsSave = false;
+
+        if ($client && $device->client_id === null) {
+            $device->client_id = $client->id;
+            $needsSave = true;
+        }
+
+        if ($session && $device->session_id === null) {
+            $device->session_id = $session->id;
+            $needsSave = true;
+        }
+
+        if ($needsSave) {
+            $device->save();
+        }
 
         return $device;
     }
