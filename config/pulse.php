@@ -10,7 +10,7 @@ return [
     | Pulse JS client expects when issuing requests to the Laravel backend.
     |
     */
-    'prefix' => 'pulse',
+    'prefix' => 'api',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,4 +22,16 @@ return [
     |
     */
     'middleware' => ['api'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Endpoint Path
+    |--------------------------------------------------------------------------
+    |
+    | Configure the endpoint within the Pulse route group that accepts incoming
+    | requests. The default "pulse" combined with the "api" prefix produces the
+    | canonical "/api/pulse" route, but it can be adjusted as needed.
+    |
+    */
+    'endpoint' => 'pulse',
 ];
