@@ -3,6 +3,8 @@
 namespace Bhhaskin\Pulse\Tests\Feature;
 
 use Bhhaskin\Pulse\Jobs\ProcessPulseBatch;
+use Bhhaskin\Pulse\Models\PulseDevice;
+use Bhhaskin\Pulse\Models\PulseEvent;
 use Bhhaskin\Pulse\PulseServiceProvider;
 use Bhhaskin\Pulse\Tests\TestCase;
 use Illuminate\Support\Arr;
@@ -69,6 +71,20 @@ class PulseEndpointTest extends TestCase
             'browser_version' => '123.0.0.0',
         ]);
         $this->assertDatabaseHas('pulse_events', ['event_name' => 'signup_completed']);
+
+        $device = PulseDevice::where('hash', $deviceHash)->firstOrFail();
+        $pageViewEvent = PulseEvent::where('event_name', 'page_view')->firstOrFail();
+        $scrollEvent = PulseEvent::where('event_name', 'scroll')->firstOrFail();
+        $signupEvent = PulseEvent::where('event_name', 'signup_completed')->firstOrFail();
+
+        $this->assertSame($device->id, $pageViewEvent->device_id);
+        $this->assertSame($device->id, $scrollEvent->device_id);
+        $this->assertSame($device->id, $signupEvent->device_id);
+
+        $this->assertSame([
+            'plan' => 'pro',
+            'value' => 49.99,
+        ], $signupEvent->payload);
     }
 
     #[Test]
